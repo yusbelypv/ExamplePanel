@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" type="image/ico" href="/360.ico"/>
+    <title>Pannellum</title>
+    <link rel="stylesheet" href="https://cdn.pannellum.org/2.3/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.pannellum.org/2.3/pannellum.js"></script>
+
+    <style>
+    #panorama {
+        width: 600px;
+        height: 400px;
+        width: 100%;
+        height: 800px;
+        object-fit: cover;
+        object-position: bottom;
+        z-index: -1;
+        position: absolute;
+        width: auto;
+        height: auto;
+        min-width: 100%;
+        min-height: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-image: url(../img/banner.jpg);
+        
+        
+    }
+    #controls {
+        position: absolute;
+        bottom: 0;
+        z-index: 2;
+        text-align: center;
+        width: 100%;
+        padding-bottom: 20px;
+    }
+    .ctrl {
+        padding: 8px 5px;
+        width: 30px;
+        text-align: center;
+        background: white;
+        color: rgb(87, 77, 150);
+        display: inline-block;
+        cursor: pointer;
+        border-radius: 50%;
+    }
+    .ctrl:hover {
+        background: rgb(42, 173, 183);
+    }
+
+    .custom-hotspot {
+        height: 25px;
+        width: 25px;
+        background: rgb(42, 173, 183);
+        border-color: rgb(87, 77, 150);
+        border-width: 2px;
+        border-radius: 50%;
+    }
+    div.custom-tooltip span {
+        visibility: hidden;
+        position: absolute;
+        border-radius: 10px;
+        background-color: #fff;
+        color: rgb(87, 77, 150);
+        text-align: center;
+        max-width: 200px;
+        padding: 5px 10px;
+        margin-left: -220px;
+        cursor: default;
+    }
+    div.custom-tooltip:hover span{
+        visibility: visible;
+    }
+    div.custom-tooltip:hover span:after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-width: 10px;
+        border-style: solid;
+        border-color: #fff transparent transparent transparent;
+        bottom: -20px;
+        left: -10px;
+        margin: 0 50%;
+    }
+   
+
+
+   
+    </style>
+</head>
+<body>
+
+  <div class="container">
+    <div id="panorama">
+    <div id="controls">
+        <div class="ctrl" id="pan-up">&#9650;</div>
+        <div class="ctrl" id="pan-down">&#9660;</div>
+        <div class="ctrl" id="pan-left">&#9664;</div>
+        <div class="ctrl" id="pan-right">&#9654;</div>
+        <div class="ctrl" id="zoom-in">&plus;</div>
+        <div class="ctrl" id="zoom-out">&minus;</div>
+        <div class="ctrl" id="fullscreen">&#x2922;</div>
+        <div class="ctrl" id="close">&#x26D2;</div>
+    </div>
+   </div>
+
+</div>
+
+
+<script>
+
+
+
+                           
+// Create viewer
+
+viewer = pannellum.viewer('panorama', {
+    "panorama": "https://images.unsplash.com/photo-1557971370-e7298ee473fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80",
+    "autoLoad": true,
+    "showControls": false,
+    "autoRotate": -0.6,
+    
+    "hotSpots": [
+        {
+            "pitch": 5.1,
+            "yaw": 6.5,
+            "type": "info",
+            "createTooltipFunc": hotspot,
+            "createTooltipArgs": " Hong Kong is a special administrative region of China. Hong Kong's status as a special administrative region stems from its history as a former British colony."
+        },
+
+        {
+            "pitch": -9.4,
+            "yaw": 222.6,
+            "cssClass": "custom-hotspot",
+            "createTooltipFunc": hotspot,
+            "createTooltipArgs": " Hong Kong is located on the Asian continent, its 260 islands and peninsulas are located in the South China Sea, in the Pearl River Delta."
+        },
+
+        {
+            "pitch": -0.9,
+            "yaw": 144.4,
+            "type": "custom",
+            "cssClass": "custom-hotspot",
+            "createTooltipFunc": hotspot,
+            "createTooltipArgs": " It has a population of more than 7.4 million inhabitants."
+            
+        }
+        
+    ]
+    
+    
+    
+});
+
+
+// Make buttons work
+
+document.getElementById('pan-up').addEventListener('click', function(e) {
+    viewer.setPitch(viewer.getPitch() + 15);
+});
+document.getElementById('pan-down').addEventListener('click', function(e) {
+    viewer.setPitch(viewer.getPitch() - 15);
+});
+document.getElementById('pan-left').addEventListener('click', function(e) {
+    viewer.setYaw(viewer.getYaw() - 15);
+});
+document.getElementById('pan-right').addEventListener('click', function(e) {
+    viewer.setYaw(viewer.getYaw() + 15);
+});
+document.getElementById('zoom-in').addEventListener('click', function(e) {
+    viewer.setHfov(viewer.getHfov() - 15);
+});
+document.getElementById('zoom-out').addEventListener('click', function(e) {
+    viewer.setHfov(viewer.getHfov() + 15);
+});
+document.getElementById('fullscreen').addEventListener('click', function(e) {
+    viewer.toggleFullscreen();
+});
+document.getElementById('close').addEventListener('click', function(e) {
+    window.history.back();
+});
+
+
+
+
+// Hot spot creation function
+function hotspot(hotSpotDiv, args) {
+    hotSpotDiv.classList.add('custom-tooltip');
+    var span = document.createElement('span');
+    span.innerHTML = args;
+    hotSpotDiv.appendChild(span);
+    span.style.width = span.scrollWidth - 20 + 'px';
+    span.style.marginLeft = -(span.scrollWidth - hotSpotDiv.offsetWidth) / 2 + 'px';
+    span.style.marginTop = -span.scrollHeight - 12 + 'px';
+}
+</script>
+
+</body>
+</html>

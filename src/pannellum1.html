@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/ico" href="/360.ico"/>
+    <link rel="stylesheet" href="../css/main.css">
     <title>Pannellum</title>
     <link rel="stylesheet" href="https://cdn.pannellum.org/2.3/pannellum.css"/>
     <script type="text/javascript" src="https://cdn.pannellum.org/2.3/pannellum.js"></script>
@@ -27,8 +28,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         background-image: url(../img/banner.jpg);
-        
-        
+         
     }
     #controls {
         position: absolute;
@@ -94,10 +94,26 @@
     </style>
 </head>
 <body>
+     
+    <header>
+         
+        <div class="nav-menu">
+            <input type="checkbox" id="check">    
+            <label for="check" class="checkbtn">
+                <i class="menu-icon"><img src="../img/menu.png" alt=""></i>
+            </label>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../src/pannellum1.html">One Pannellum</a></li>
+                <li><a href="../src/pennellum2.html">Two Pannellum</a></li>
+            </ul>      
+            
+        </div>
+    </header>
 
-  <div class="container">
-    <div id="panorama">
-    <div id="controls">
+   <div class="container">
+     <div id="panorama">
+     <div id="controls">
         <div class="ctrl" id="pan-up">&#9650;</div>
         <div class="ctrl" id="pan-down">&#9660;</div>
         <div class="ctrl" id="pan-left">&#9664;</div>
@@ -106,7 +122,10 @@
         <div class="ctrl" id="zoom-out">&minus;</div>
         <div class="ctrl" id="fullscreen">&#x2922;</div>
         <div class="ctrl" id="close">&#x26D2;</div>
+        
     </div>
+
+
    </div>
 
 </div>
@@ -117,7 +136,7 @@
 
 
                            
-// Create viewer
+// Create viewer Pannellum 
 
 viewer = pannellum.viewer('panorama', {
     "panorama": "https://images.unsplash.com/photo-1557971370-e7298ee473fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80",
@@ -132,6 +151,7 @@ viewer = pannellum.viewer('panorama', {
             "type": "info",
             "createTooltipFunc": hotspot,
             "createTooltipArgs": " Hong Kong is a special administrative region of China. Hong Kong's status as a special administrative region stems from its history as a former British colony."
+           
         },
 
         {
@@ -159,7 +179,7 @@ viewer = pannellum.viewer('panorama', {
 });
 
 
-// Make buttons work
+// Make buttons work (controls)
 
 document.getElementById('pan-up').addEventListener('click', function(e) {
     viewer.setPitch(viewer.getPitch() + 15);
@@ -189,6 +209,8 @@ document.getElementById('close').addEventListener('click', function(e) {
 
 
 
+
+
 // Hot spot creation function
 function hotspot(hotSpotDiv, args) {
     hotSpotDiv.classList.add('custom-tooltip');
@@ -199,6 +221,9 @@ function hotspot(hotSpotDiv, args) {
     span.style.marginLeft = -(span.scrollWidth - hotSpotDiv.offsetWidth) / 2 + 'px';
     span.style.marginTop = -span.scrollHeight - 12 + 'px';
 }
+
+
+
 </script>
 
 </body>
